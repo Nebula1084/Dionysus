@@ -11,7 +11,7 @@ import Immutable from 'immutable';
 import data from '../assets/us-cdc.json';
 
 const MAP_TOKEN = 'pk.eyJ1IjoiaGp3aXNzYWMiLCJhIjoiY2pnYWkyYmljNDd0czJ6bzZqejN4N2diOSJ9.qEjT8u_zenH1g7Fkh56FfA';
-const colorScale = r => [r * 255, 140, 200 * (1 - r), 100];
+const colorScale = r => [r * 255, 140, r, 100];
 const LIGHT_SETTINGS = {
   lightsPosition: [-125, 50.5, 5000, -122.8, 48.5, 8000],
   ambientRatio: 0.2,
@@ -39,6 +39,17 @@ export default class Example extends Component {
     autobind(this);
   }
 
+  _onClick(event) {
+    if (event) {
+      if (this.target) {
+        this.target.selected = false;
+      }
+      this.target = event.object.properties;
+      this.target.selected = true;
+      this.setState({ ...this.state })
+    }
+  }
+
   _onChangeViewport(opt) {
     this.setState({ viewport: opt });
   }
@@ -54,31 +65,35 @@ export default class Example extends Component {
         mapboxApiAccessToken={MAP_TOKEN}
         maxPitch={60}
         onViewportChange={this._onChangeViewport}
-        // setting to `true` should cause the map to flicker because all sources
-        // and layers need to be reloaded without diffing enabled.
         preventStyleDiffing={false}>
-        <DeckGL {...viewport} layers={[
-          new GeoJsonLayer({
-            id: 'geojson',
-            data,
-            stroked: false,
-            filled: true,
-            extruded: true,
-            wireframe: true,
-            fp64: true,
-            pickable: true,
-            getElevation: f => Math.sqrt(f.properties.density) * 10,
-            getFillColor: f => colorScale(f.properties.density),
-            lightSettings: LIGHT_SETTINGS,
-          }),
 
-          new ArcLayer({
-            data: [{ sourcePosition: [-122.41669, 37.7853], targetPosition: [-122.45669, 37.781] }],
-            strokeWidth: 4,
-            getSourceColor: x => [0, 0, 255],
-            getTargetColor: x => [0, 255, 0]
-          })
-        ]}
+        <DeckGL {...viewport}
+          layers={[
+            new GeoJsonLayer({
+              id: 'geojson',
+              data,
+              stroked: false,
+              filled: true,
+              extruded: true,
+              onClick: this._onClick,
+              wireframe: true,
+              fp64: true,
+              pickable: true,
+              updateTriggers: {
+                all: this.target
+              },
+              getElevation: f => f.properties.density * 10,
+              getFillColor: f => {
+                let r = f.properties.density;
+                if (f.properties.selected)
+                  return [255, r, 255, 100];
+                else
+                  return [255, 255, r, 100];
+              },
+
+              lightSettings: LIGHT_SETTINGS,
+            })
+          ]}
         />
 
       </MapGL>
