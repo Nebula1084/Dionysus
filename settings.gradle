@@ -1,0 +1,4 @@
+rootProject.name = 'dionysus'
+include 'server'
+include 'client'
+
