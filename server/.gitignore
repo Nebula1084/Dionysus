@@ -1,3 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 /out/
 /build/
+/src/main/resources/yelp_business.csv
+/src/main/resources/yelp_business_hours.csv
+/src/main/resources/yelp_business_attributes.csv
+/src/main/resources/yelp_checkin.csv
