@@ -4,6 +4,7 @@ import hku.cs.vis.dionysus.business.Business;
 import hku.cs.vis.dionysus.business.BusinessPoint;
 import hku.cs.vis.dionysus.business.BusinessTree;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin
 @RestController
 public class StateStatistics {
     private final BusinessTree businessTree;
