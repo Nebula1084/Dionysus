@@ -4,7 +4,7 @@ import autobind from 'react-autobind';
 import MapGL from 'react-map-gl';
 import DeckGL, { GeoJsonLayer, HexagonLayer } from 'deck.gl';
 import Immutable from 'immutable';
-
+import styles from './portal.less';
 /* global window */
 
 // San Francisco
@@ -63,7 +63,7 @@ export default class Map extends Component {
       fp64: true,
       pickable: true,
       updateTriggers: {
-        all: [this.target, this.props.method, this.props.portal.update],
+        all: [this.props.portal.target, this.props.method, this.props.portal.update],
       },
       getFillColor: f => {
         if (f.properties.selected)
@@ -87,6 +87,7 @@ export default class Map extends Component {
       wireframe: true,
       fp64: true,
       pickable: true,
+      onHover: this._onHover,
       elevationScale: this.props.elevationScale,
       updateTriggers: {
         all: [this.props.portal.target, this.props.method, this.props.portal.update]
@@ -141,6 +142,27 @@ export default class Map extends Component {
     })
   }
 
+  _renderTooltip() {
+    const { x, y, hoveredObject } = this.state;
+
+    if (!hoveredObject) {
+      return null;
+    }
+    return (
+      <div className={styles['tooltip']}
+        style={{
+          left: x, top: y + 40
+        }}>
+        <div>{hoveredObject.properties.statecode}</div>
+        {x}
+      </div>
+    );
+  }
+
+  _onHover({ x, y, object }) {
+    this.setState({ ...this.state, x, y, hoveredObject: object });
+  }
+
   render() {
     const viewport = {
       ...this.state.viewport,
@@ -155,19 +177,22 @@ export default class Map extends Component {
       layers.push(this.businessLayer());
     }
     return (
-      <MapGL
-        {...viewport}
-        mapStyle='mapbox://styles/mapbox/light-v9'
-        mapboxApiAccessToken={MAP_TOKEN}
-        maxPitch={60}
-        onViewportChange={this._onChangeViewport}
-        preventStyleDiffing={false}>
+      <div>
+        {this._renderTooltip()}
+        <MapGL
+          {...viewport}
+          mapStyle='mapbox://styles/mapbox/light-v9'
+          mapboxApiAccessToken={MAP_TOKEN}
+          maxPitch={60}
+          onViewportChange={this._onChangeViewport}
+          preventStyleDiffing={false}>
 
-        <DeckGL {...viewport}
-          layers={layers}
-        />
+          <DeckGL {...viewport}
+            layers={layers}
+          />
 
-      </MapGL>
+        </MapGL>
+      </div>
     );
   }
 }
