@@ -123,8 +123,17 @@ public class RootNode {
 
     public Map<String, Double> getStars(String category) {
         Map<String, Double> ret = new HashMap<>();
-        children.forEach((state, node) -> ret.put(state, node.getStars(category) / node.getNumber(category)));
-        ret.put(BusinessTree.TOTAL, stars / number);
+        children.forEach((state, node) -> {
+            int n = node.getNumber(category);
+            if (n == 0)
+                ret.put(state, 0.);
+            else
+                ret.put(state, node.getStars(category) / n);
+        });
+        if (number == 0)
+            ret.put(BusinessTree.TOTAL, 0.);
+        else
+            ret.put(BusinessTree.TOTAL, stars / number);
         return ret;
 
     }

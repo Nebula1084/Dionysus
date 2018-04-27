@@ -27,6 +27,22 @@ export default class Review extends React.Component {
     this.props.dispatch({ type: 'review/getCheckIns' });
   }
 
+  geoToolTip = (object) => {
+    if (!this.props.review.reviews)
+      return null;
+    let checkIn = this.props.review.reviews[object.properties.statecode];
+    if (!checkIn)
+      checkIn = 0;
+
+    return (
+      <div>
+        {object.properties.name} <br />
+        Review number:{checkIn} <br />
+      </div>
+    )
+  }
+
+
   render() {
     let stateData = {
       colorMap: this.props.colorMap,
@@ -47,6 +63,7 @@ export default class Review extends React.Component {
                 updateState={this.updateState}
                 stops={stops}
                 elevationScale={0.3}
+                geoToolTip={this.geoToolTip}
               />
             </div>
           </Col>

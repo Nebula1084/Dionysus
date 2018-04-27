@@ -38,7 +38,7 @@ export default {
       }
     },
     updateReviews(state, { payload }) {
-      return { ...state, reviews: payload };
+      return { ...state, reviews: payload, update: {} };
     },
     updateCheckIns(state, { payload }) {
       return { ...state, checkIns: payload };

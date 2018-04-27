@@ -45,6 +45,27 @@ export default class Portal extends React.Component {
     this.props.dispatch({ type: 'portal/getNumbersCategory' });
   }
 
+  geoToolTip = (object) => {
+    let number = this.props.portal.numbers[object.properties.statecode];
+    if (!this.props.portal.numbers)
+      return null;
+    if (!this.props.portal.stars)
+      return null;
+    let star = this.props.portal.stars[object.properties.statecode];
+    if (!number)
+      number = 0;
+    if (!star)
+      star = 0;
+
+    return (
+      <div>
+        {object.properties.name} <br />
+        Business number:{number} <br />
+        Average star:{star.toFixed(3)}
+      </div>
+    )
+  }
+
   render() {
     this.props.portal.numbers;
     this.props.portal.stars;
@@ -91,6 +112,7 @@ export default class Portal extends React.Component {
                 portal={this.props.portal}
                 stops={stops}
                 elevationScale={5}
+                geoToolTip={this.geoToolTip}
                 updateState={this.updateState}
               />
             </div>

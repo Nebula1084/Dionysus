@@ -145,16 +145,15 @@ export default class Map extends Component {
   _renderTooltip() {
     const { x, y, hoveredObject } = this.state;
 
-    if (!hoveredObject) {
+    if (!hoveredObject || !this.props.geoToolTip) {
       return null;
     }
     return (
       <div className={styles['tooltip']}
         style={{
-          left: x, top: y + 40
+          left: x, top: y + 30
         }}>
-        <div>{hoveredObject.properties.statecode}</div>
-        {x}
+        {this.props.geoToolTip(hoveredObject)}
       </div>
     );
   }
