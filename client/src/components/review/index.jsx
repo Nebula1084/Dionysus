@@ -56,8 +56,8 @@ export default class Review extends React.Component {
           <Col span={18} >
             <div className={styles['showcase-toolbar']}>
               <Form layout="inline">
-                <Form.Item>
-                  <ColorLegend />
+                <Form.Item label="Review Count">
+                  <ColorLegend max={this.props.max} />
                 </Form.Item>
               </Form>
             </div>

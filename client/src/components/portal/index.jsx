@@ -93,13 +93,13 @@ export default class Portal extends React.Component {
           <Col span={18}>
             <div className={styles['showcase-toolbar']}>
               <Form layout="inline">
-                <Form.Item>
+                <Form.Item label="View">
                   <Select defaultValue={this.props.portal.method} style={{ width: 150 }} className={styles['tool-button']} onChange={this.updateMethod}>
                     <Select.Option value='state'>State</Select.Option>
                     <Select.Option value='business'>Business</Select.Option>
                   </Select>
                 </Form.Item>
-                <Form.Item>
+                <Form.Item label="Category">
                   <Select defaultValue={this.props.portal.category} style={{ width: 200 }} className={styles['tool-button']} onChange={this.updateCategory} >
                     <Select.Option value='all'>All</Select.Option>
                     <Select.Option value='Nightlife'>Nightlife</Select.Option>
@@ -114,8 +114,8 @@ export default class Portal extends React.Component {
                     <Select.Option value='Beauty & Spas'>Beauty & Spas</Select.Option>
                   </Select>
                 </Form.Item>
-                <Form.Item>
-                  <ColorLegend />
+                <Form.Item label="Rating">
+                  <ColorLegend max={5} />
                 </Form.Item>
               </Form>
             </div>
@@ -134,7 +134,7 @@ export default class Portal extends React.Component {
             </div>
           </Col>
           <Col span={6}>
-            <Pie data={this.props.portal.attributes} />
+            <Pie data={this.props.portal.attributes} portal={this.props.portal} />
             <Bar data={this.props.portal.hours} />
             <Cate data={this.props.portal.numbersCategory} />
           </Col>

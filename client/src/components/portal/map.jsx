@@ -94,6 +94,7 @@ export default class Map extends Component {
       wireframe: true,
       fp64: true,
       pickable: true,
+      opacity: 0.5,
       onHover: this._onHover,
       elevationScale: this.props.elevationScale,
       updateTriggers: {
@@ -138,7 +139,6 @@ export default class Map extends Component {
       elevationRange: [0, 1000],
       elevationScale: 100,
       extruded: true,
-      opacity: 1,
       fp64: true,
       getColorValue: points => {
         let stars = 0;
@@ -158,7 +158,8 @@ export default class Map extends Component {
       onHover: this._onHover,
       pickable: true,
       lightSettings: LIGHT_SETTINGS,
-      radius: 1000
+      radius: 1000,
+      opacity: 0.5
     })
   }
 

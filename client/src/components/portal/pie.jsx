@@ -8,13 +8,29 @@ export default class Pie extends React.Component {
     if (map == undefined) {
       map = {}
     }
-    let series = []
-    Object.keys(map).forEach(function (key) {
-      series.push({ value: map[key], name: key });
-    });
+    let indicators = [];
+
     const reStyle = {
       width: '100%',
       height: '300px'
+    }
+
+    let max = 0;
+    let state = 'TOTAL';
+
+    Object.keys(map).forEach(function (key) {
+      if (max < map[key]) {
+        max = map[key];
+      }
+    });
+    let values = [];
+    Object.keys(map).forEach(function (key) {
+      indicators.push({ name: key, max: max });
+      values.push(map[key]);
+    });
+
+    if (indicators.length == 0) {
+      return 0;
     }
 
     const sdoption = {
@@ -22,26 +38,27 @@ export default class Pie extends React.Component {
         text: 'Business Attributes',
         left: 'center'
       },
-      tooltip: {
-        trigger: 'item',
-        formatter: "{b} : {c} ({d}%)"
-      },
-      series: [
-        {
-          type: 'pie',
-          radius: '65%',
-          center: ['50%', '50%'],
-          selectedMode: 'single',
-          data: series,
-          itemStyle: {
-            emphasis: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: 'rgba(0, 0, 0, 0.5)'
-            }
+      tooltip: {},
+      radar: {
+        // shape: 'circle',
+        name: {
+          textStyle: {
+            color: '#fff',
+            backgroundColor: '#999',
+            borderRadius: 3,
+            padding: [3, 5]
           }
-        }
-      ]
+        },
+        indicator: indicators
+      },
+      series: [{
+        type: 'radar',
+        data: [
+          {
+            value: values
+          }
+        ]
+      }]
     };
 
 

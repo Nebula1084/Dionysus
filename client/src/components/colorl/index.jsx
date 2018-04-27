@@ -27,7 +27,7 @@ export default class ColorLegend extends React.Component {
         </div>
         <p className={styles['layout']}>
           <span className={classNames(styles['col-1-2'])}>0</span>
-          <span className={classNames(styles['col-1-2'], styles['text-right'])}>5</span>
+          <span className={classNames(styles['col-1-2'], styles['text-right'])}>{this.props.max}</span>
         </p>
       </div>
     )

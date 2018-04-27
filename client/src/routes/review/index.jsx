@@ -30,6 +30,7 @@ class ReviewPortal extends React.Component {
         if (max < value && key != 'TOTAL')
           max = value;
       });
+      this.max = max;
       Object.keys(colorMap).forEach(function (key) {
         ret[key] = colorMap[key] / max * 5;
       });
@@ -43,7 +44,13 @@ class ReviewPortal extends React.Component {
 
     return (
       <div>
-        <Review colorMap={numbers} elevationMap={numbers} dispatch={this.dispatch} review={this.props.review} />
+        <Review
+          colorMap={numbers}
+          elevationMap={numbers}
+          dispatch={this.dispatch}
+          review={this.props.review}
+          max={this.max}
+        />
       </div>
     )
   }
