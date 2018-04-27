@@ -112,8 +112,8 @@ export default class Map extends Component {
       },
       getFillColor: f => {
         let r = 0;
-        if (this.props.portal.stars) {
-          r = this.props.portal.stars[f.properties.statecode];
+        if (this.props.stateData.colorMap) {
+          r = this.props.stateData.colorMap[f.properties.statecode];
           if (r === undefined)
             r = 0;
         } else {

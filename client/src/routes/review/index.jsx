@@ -18,14 +18,6 @@ class ReviewPortal extends React.Component {
     this.dispatch({ type: 'review/getCheckIns' });
   }
 
-  which(value) {
-    for (let i = 0; i < stops.length; i++) {
-      if (value < stops[i])
-        return i;
-    }
-    return stops.length - 1;
-  }
-
   normalize(colorMap) {
     let self = this;
     if (colorMap) {
@@ -39,7 +31,7 @@ class ReviewPortal extends React.Component {
           max = value;
       });
       Object.keys(colorMap).forEach(function (key) {
-        ret[key] = self.which(colorMap[key] / max * 255);
+        ret[key] = colorMap[key] / max * 5;
       });
       return ret;
     }

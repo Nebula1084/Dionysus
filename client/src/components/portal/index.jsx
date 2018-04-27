@@ -83,7 +83,7 @@ export default class Portal extends React.Component {
     this.props.portal.stars;
 
     let stateData = {
-      colorMap: this.props.colorMap,
+      colorMap: this.props.portal.stars,
       elevationMap: this.props.portal.numbers
     }
 
@@ -94,7 +94,7 @@ export default class Portal extends React.Component {
             <div className={styles['showcase-toolbar']}>
               <Form layout="inline">
                 <Form.Item>
-                  <Select defaultValue={this.props.portal.method} style={{ width: 100 }} className={styles['tool-button']} onChange={this.updateMethod}>
+                  <Select defaultValue={this.props.portal.method} style={{ width: 150 }} className={styles['tool-button']} onChange={this.updateMethod}>
                     <Select.Option value='state'>State</Select.Option>
                     <Select.Option value='business'>Business</Select.Option>
                   </Select>
