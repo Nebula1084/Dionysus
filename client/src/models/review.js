@@ -1,48 +1,47 @@
-import { getStars, getNumbers, getStarsCategory, getNumbersCategory, getBusiness, getBusinessCategory } from '../services/rest'
+import { getReviews, getCheckIns } from '../services/rest'
 
 export default {
   namespace: 'review',
   state: {
-
   },
   effects: {
-    *getStars({ payload: category }, { call, put, select }) {
-      let result;
-      if (category == 'all')
-        result = yield call(getStars);
-      else
-        result = yield call(getStarsCategory, category);
-      yield put({ type: 'updateStars', payload: result })
-    },
-    *getNumbers({ payload: category }, { call, put, select }) {
-      let result;
-      if (category == 'all')
-        result = yield call(getNumbers);
-      else
-        result = yield call(getNumbersCategory, category);
+    *getReviews({ }, { call, put, select }) {
+      let category = 'all';
 
-      yield put({ type: 'updateNumbers', payload: result })
+      let result = yield call(getReviews, category);
+      yield put({ type: 'updateReviews', payload: result })
     },
-    *getBusiness({ payload: category }, { call, put, select }) {
-      let result;
-      if (category == 'all')
-        result = yield call(getBusiness);
-      else
-        result = yield call(getBusinessCategory, category);
+    *getCheckIns({ }, { call, put, select }) {
+      let target = yield select(state => state.review.target);
+      let state
+      if (target !== undefined) {
+        state = target.statecode;
+      } else {
+        state = 'all';
+      }
+      let category = 'all';
 
-      yield put({ type: 'updateBusiness', payload: result })
+      let result = yield call(getCheckIns, state, category);
+      yield put({ type: 'updateCheckIns', payload: result })
     }
-
   },
   reducers: {
-    updateStars(state, { payload }) {
-      return { ...state, stars: payload, update: {} };
+    updateState(state, { payload: target }) {
+      if (state.target) {
+        state.target.selected = false;
+      }
+      if (state.target !== target) {
+        target.selected = true;
+        return { ...state, target: target };
+      } else {
+        return { ...state, target: undefined };
+      }
     },
-    updateNumbers(state, { payload }) {
-      return { ...state, numbers: payload, update: {} };
+    updateReviews(state, { payload }) {
+      return { ...state, reviews: payload };
     },
-    updateBusiness(state, { payload }) {
-      return { ...state, business: payload, update: {} };
+    updateCheckIns(state, { payload }) {
+      return { ...state, checkIns: payload };
     }
   }
 }

@@ -4,9 +4,21 @@ import ReactEcharts from 'echarts-for-react';
 export default class Line extends React.Component {
 
   render() {
+    let map = this.props.data
+    if (map == undefined) {
+      map = {}
+    }
+    let xSeries = []
+    let ySeries = []
+    Object.keys(map).forEach(function (key) {
+      xSeries.push(key);
+      ySeries.push(map[key]);
+    });
+
     const reStyle = {
       width: '100%',
-      height: '300px'
+      height: '300px',
+      margin: '10px'
     }
 
     const sdoption = {
@@ -14,15 +26,32 @@ export default class Line extends React.Component {
         text: 'Check-in Number',
         left: 'center'
       },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
       xAxis: {
         type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        data: xSeries
       },
       yAxis: {
-        type: 'value'
+        type: 'value',
+        axisLabel: {
+          formatter: function (value, index) {
+            if (value > 1000) {
+              return value / 1000 + 'k'
+            }
+            else {
+              return value;
+            }
+          }
+
+        }
       },
       series: [{
-        data: [820, 932, 901, 934, 1590, 1930, 1720],
+        data: ySeries,
         type: 'line'
       }]
     };

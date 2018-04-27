@@ -22,8 +22,12 @@ export default class Review extends React.Component {
     };
   }
 
-  render() {
+  updateState = (target) => {
+    this.props.dispatch({ type: 'review/updateState', payload: target });
+    this.props.dispatch({ type: 'review/getCheckIns' });
+  }
 
+  render() {
     let stateData = {
       colorMap: this.props.colorMap,
       elevationMap: this.props.elevationMap
@@ -43,11 +47,18 @@ export default class Review extends React.Component {
             </div>
 
             <div className={styles['showcase-container']}>
-              <Map stateData={stateData} method='state' businessData={undefined} portal={this.props.review} stops={stops} />
+              <Map
+                stateData={stateData}
+                method='state'
+                businessData={undefined}
+                portal={this.props.review}
+                updateState={this.updateState}
+                stops={stops}
+              />
             </div>
           </Col>
           <Col span={6}>
-            <Line />
+            <Line data={this.props.review.checkIns}/>
           </Col>
         </Row>
       </div>

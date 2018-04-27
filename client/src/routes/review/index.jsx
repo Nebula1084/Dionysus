@@ -14,9 +14,8 @@ class ReviewPortal extends React.Component {
   }
 
   componentDidMount() {
-    this.dispatch({ type: 'review/getStars', payload: 'all' });
-    this.dispatch({ type: 'review/getNumbers', payload: 'all' });
-    this.dispatch({ type: 'review/getBusiness', payload: 'all' });
+    this.dispatch({ type: 'review/getReviews' });
+    this.dispatch({ type: 'review/getCheckIns' });
   }
 
   which(value) {
@@ -48,7 +47,7 @@ class ReviewPortal extends React.Component {
 
   render() {
 
-    let numbers = this.normalize(this.props.review.numbers);
+    let numbers = this.normalize(this.props.review.reviews);
 
     return (
       <div>
