@@ -2,6 +2,7 @@ import Map from '../portal/map'
 import styles from '../portal/portal.less';
 import { Table, Button, Icon, Row, Col, Form, FormItem, Popconfirm, Select, Switch } from 'antd';
 import Line from './line'
+import ColorLegend from '../colorl'
 
 const stops = {
   0: [234, 245, 245],
@@ -53,7 +54,13 @@ export default class Review extends React.Component {
       <div>
         <Row>
           <Col span={18} >
-
+            <div className={styles['showcase-toolbar']}>
+              <Form layout="inline">
+                <Form.Item>
+                  <ColorLegend />
+                </Form.Item>
+              </Form>
+            </div>
             <div className={styles['showcase-container']}>
               <Map
                 stateData={stateData}

@@ -5,6 +5,7 @@ import Pie from './pie'
 import Bar from './bar'
 import Cate from './cate'
 import Map from './map'
+import ColorLegend from '../colorl'
 
 import styles from './portal.less';
 import { getStars, getNumbers, getStarsCategory, getNumbersCategory } from '../../services/rest'
@@ -112,6 +113,9 @@ export default class Portal extends React.Component {
                     <Select.Option value='Event Planning & Services:'>Event Planning & Services</Select.Option>
                     <Select.Option value='Beauty & Spas'>Beauty & Spas</Select.Option>
                   </Select>
+                </Form.Item>
+                <Form.Item>
+                  <ColorLegend />
                 </Form.Item>
               </Form>
             </div>

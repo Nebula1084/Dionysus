@@ -5,9 +5,7 @@ import MapGL from 'react-map-gl';
 import DeckGL, { GeoJsonLayer, HexagonLayer } from 'deck.gl';
 import Immutable from 'immutable';
 import styles from './portal.less';
-/* global window */
 
-// San Francisco
 import geoData from '../../assets/us-cdc.json';
 
 const MAP_TOKEN = 'pk.eyJ1IjoiaGp3aXNzYWMiLCJhIjoiY2pnYWkyYmljNDd0czJ6bzZqejN4N2diOSJ9.qEjT8u_zenH1g7Fkh56FfA';
@@ -16,8 +14,8 @@ const LIGHT_SETTINGS = {
   lightsPosition: [-125, 50.5, 5000, -122.8, 48.5, 8000],
   ambientRatio: 0.2,
   diffuseRatio: 0.5,
-  specularRatio: 0.3,
-  lightsStrength: [1.0, 0.0, 2.0, 0.0],
+  specularRatio: 0.4,
+  lightsStrength: [1.0, 1.0, 2.0, 0.5],
   numberOfLights: 2
 };
 
