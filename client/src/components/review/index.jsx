@@ -30,21 +30,13 @@ export default class Review extends React.Component {
   render() {
     let stateData = {
       colorMap: this.props.colorMap,
-      elevationMap: this.props.elevationMap
+      elevationMap: this.props.review.reviews
     }
 
     return (
       <div>
         <Row>
           <Col span={18} >
-
-            <div className={styles['showcase-toolbar']}>
-              <Select defaultValue='all' className={styles['tool-button']} >
-                <Select.Option value='all'>All Day</Select.Option>
-                <Select.Option value='day'>Day</Select.Option>
-                <Select.Option value='night'>Night</Select.Option>
-              </Select>
-            </div>
 
             <div className={styles['showcase-container']}>
               <Map
@@ -54,11 +46,12 @@ export default class Review extends React.Component {
                 portal={this.props.review}
                 updateState={this.updateState}
                 stops={stops}
+                elevationScale={0.3}
               />
             </div>
           </Col>
           <Col span={6}>
-            <Line data={this.props.review.checkIns}/>
+            <Line data={this.props.review.checkIns} />
           </Col>
         </Row>
       </div>

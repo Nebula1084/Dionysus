@@ -87,6 +87,7 @@ export default class Map extends Component {
       wireframe: true,
       fp64: true,
       pickable: true,
+      elevationScale: this.props.elevationScale,
       updateTriggers: {
         all: [this.props.portal.target, this.props.method, this.props.portal.update]
       },
@@ -94,13 +95,12 @@ export default class Map extends Component {
         if (this.props.stateData.elevationMap) {
           let r = this.props.stateData.elevationMap[f.properties.statecode];
           if (r) {
-            return r * 30000;
-          }
-          else {
+            return r;
+          } else {
             return 0;
           }
-        } else
-          return f.properties.density * 10;
+        }
+        return 0;
       },
       getFillColor: f => {
         let r = 0;

@@ -24,13 +24,7 @@ export default class Pie extends React.Component {
       },
       tooltip: {
         trigger: 'item',
-        formatter: "{a} <br/>{b} : {c} ({d}%)"
-      },
-      legend: {
-        // orient: 'vertical',
-        // top: 'middle',
-        bottom: 10,
-        left: 'center',
+        formatter: "{b} : {c} ({d}%)"
       },
       series: [
         {

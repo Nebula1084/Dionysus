@@ -46,10 +46,12 @@ export default class Portal extends React.Component {
   }
 
   render() {
+    this.props.portal.numbers;
+    this.props.portal.stars;
 
     let stateData = {
       colorMap: this.props.colorMap,
-      elevationMap: this.props.elevationMap
+      elevationMap: this.props.portal.numbers
     }
 
     return (
@@ -75,7 +77,7 @@ export default class Portal extends React.Component {
                     <Select.Option value='Shopping'>Shopping</Select.Option>
                     <Select.Option value='Bars'>Bars</Select.Option>
                     <Select.Option value='Local Services'>Local Services</Select.Option>
-                    <Select.Option value='Event Planning & Services:'>Event Planning & Services:</Select.Option>
+                    <Select.Option value='Event Planning & Services:'>Event Planning & Services</Select.Option>
                     <Select.Option value='Beauty & Spas'>Beauty & Spas</Select.Option>
                   </Select>
                 </Form.Item>
@@ -88,6 +90,7 @@ export default class Portal extends React.Component {
                 method={this.props.portal.method}
                 portal={this.props.portal}
                 stops={stops}
+                elevationScale={5}
                 updateState={this.updateState}
               />
             </div>

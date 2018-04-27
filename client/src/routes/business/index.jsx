@@ -55,7 +55,12 @@ class Business extends React.Component {
 
     return (
       <div>
-        <Portal colorMap={numbers} elevationMap={this.props.portal.stars} dispatch={this.dispatch} portal={this.props.portal} />
+        <Portal
+          colorMap={numbers}
+          elevationMap={this.props.portal.stars}
+          dispatch={this.dispatch}
+          portal={this.props.portal}
+        />
       </div>
     )
   }
