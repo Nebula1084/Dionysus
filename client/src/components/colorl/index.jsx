@@ -17,7 +17,7 @@ export default class ColorLegend extends React.Component {
       .map(color => `rgb(${color.join(',')})`);
 
     return (
-      <div style={{ height: 40 }} >
+      <div style={{ height: 40, width: 200 }} >
         <div className={styles['layout']}>
           {colorRamp.map((c, i) => (
             <div key={i}
@@ -26,8 +26,8 @@ export default class ColorLegend extends React.Component {
           ))}
         </div>
         <p className={styles['layout']}>
-          <span className={classNames(styles['col-1-2'])}>Fewer Accidents</span>
-          <span className={classNames(styles['col-1-2'], styles['text-right'])}>More Accidents</span>
+          <span className={classNames(styles['col-1-2'])}>0</span>
+          <span className={classNames(styles['col-1-2'], styles['text-right'])}>5</span>
         </p>
       </div>
     )

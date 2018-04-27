@@ -12,12 +12,12 @@ import { getStars, getNumbers, getStarsCategory, getNumbersCategory } from '../.
 
 const stops = {
   0: [100, 100, 100],
-  1: [0, 255, 0],
-  2: [50, 200, 0],
-  3: [100, 150, 0],
-  4: [150, 100, 0],
-  5: [200, 50, 0],
-  6: [255, 0, 0]
+  1: [1, 152, 189],
+  2: [73, 227, 206],
+  3: [216, 254, 181],
+  4: [254, 237, 177],
+  5: [254, 173, 84],
+  6: [209, 55, 78]
 }
 
 export default class Portal extends React.Component {
@@ -94,7 +94,7 @@ export default class Portal extends React.Component {
             <div className={styles['showcase-toolbar']}>
               <Form layout="inline">
                 <Form.Item>
-                  <Select defaultValue={this.props.portal.method} className={styles['tool-button']} onChange={this.updateMethod}>
+                  <Select defaultValue={this.props.portal.method} style={{ width: 100 }} className={styles['tool-button']} onChange={this.updateMethod}>
                     <Select.Option value='state'>State</Select.Option>
                     <Select.Option value='business'>Business</Select.Option>
                   </Select>

@@ -11,11 +11,11 @@ import geoData from '../../assets/us-cdc.json';
 const MAP_TOKEN = 'pk.eyJ1IjoiaGp3aXNzYWMiLCJhIjoiY2pnYWkyYmljNDd0czJ6bzZqejN4N2diOSJ9.qEjT8u_zenH1g7Fkh56FfA';
 const colorScale = r => [r * 255, 140, r, 100];
 const LIGHT_SETTINGS = {
-  lightsPosition: [-125, 50.5, 5000, -122.8, 48.5, 8000],
-  ambientRatio: 0.2,
-  diffuseRatio: 0.5,
-  specularRatio: 0.4,
-  lightsStrength: [1.0, 1.0, 2.0, 0.5],
+  lightsPosition: [-125, 50.5, 5000, -72.8, 18.5, 8000],
+  ambientRatio: 0.4,
+  diffuseRatio: 0.4,
+  specularRatio: 0.1,
+  lightsStrength: [1.0, 1.0, 1.0, 0.5],
   numberOfLights: 2
 };
 
@@ -74,6 +74,15 @@ export default class Map extends Component {
     });
   }
 
+  which(value) {
+    let n = Object.keys(this.props.stops).length - 1;
+    if (value) {
+      return Math.ceil(value * n / 5)
+    }
+    return 0;
+  }
+
+
   statsLayer() {
     return new GeoJsonLayer({
       id: 'geojson',
@@ -103,8 +112,8 @@ export default class Map extends Component {
       },
       getFillColor: f => {
         let r = 0;
-        if (this.props.stateData.colorMap) {
-          r = this.props.stateData.colorMap[f.properties.statecode];
+        if (this.props.portal.stars) {
+          r = this.props.portal.stars[f.properties.statecode];
           if (r === undefined)
             r = 0;
         } else {
@@ -113,7 +122,7 @@ export default class Map extends Component {
         if (f.properties.selected)
           return [100, r, r];
         else {
-          return this.props.stops[r];
+          return this.props.stops[this.which(r)];
         }
       },
 
@@ -145,8 +154,10 @@ export default class Map extends Component {
       // getElevationValue: this.getElevationValue,
       elevationUpperPercentile: 100,
       elevationLowerPercentile: 0,
+      colorRange: Object.values(this.props.stops),
       onHover: this._onHover,
       pickable: true,
+      lightSettings: LIGHT_SETTINGS,
       radius: 1000
     })
   }
