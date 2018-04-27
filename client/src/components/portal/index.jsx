@@ -100,7 +100,7 @@ export default class Portal extends React.Component {
                   </Select>
                 </Form.Item>
                 <Form.Item>
-                  <Select defaultValue={this.props.portal.category} className={styles['tool-button']} onChange={this.updateCategory} >
+                  <Select defaultValue={this.props.portal.category} style={{ width: 200 }} className={styles['tool-button']} onChange={this.updateCategory} >
                     <Select.Option value='all'>All</Select.Option>
                     <Select.Option value='Nightlife'>Nightlife</Select.Option>
                     <Select.Option value='Fashion'>Fashion</Select.Option>

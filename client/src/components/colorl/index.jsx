@@ -17,7 +17,7 @@ export default class ColorLegend extends React.Component {
       .map(color => `rgb(${color.join(',')})`);
 
     return (
-      <div >
+      <div style={{ height: 40 }} >
         <div className={styles['layout']}>
           {colorRamp.map((c, i) => (
             <div key={i}
