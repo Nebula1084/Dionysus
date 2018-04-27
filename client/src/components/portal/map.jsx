@@ -40,18 +40,7 @@ export default class Map extends Component {
   }
 
   _onClick(event) {
-    if (event) {
-      if (this.target) {
-        this.target.selected = false;
-      }
-      if (this.target !== event.object.properties) {
-        this.target = event.object.properties;
-        this.target.selected = true;
-      } else {
-        this.target = undefined;
-      }
-      this.setState({ ...this.state })
-    }
+    this.props.updateState(event.object.properties);
   }
 
   _onChangeViewport(opt) {
@@ -99,7 +88,7 @@ export default class Map extends Component {
       fp64: true,
       pickable: true,
       updateTriggers: {
-        all: [this.target, this.props.method, this.props.portal.update]
+        all: [this.props.portal.target, this.props.method, this.props.portal.update]
       },
       getElevation: f => {
         if (this.props.stateData.elevationMap) {

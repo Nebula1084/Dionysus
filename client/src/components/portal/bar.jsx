@@ -4,6 +4,17 @@ import ReactEcharts from 'echarts-for-react';
 export default class Bar extends React.Component {
 
   render() {
+    let map = this.props.data
+    if (map == undefined) {
+      map = {}
+    }
+    let xSeries = []
+    let ySeries = []
+    Object.keys(map).forEach(function (key) {
+      xSeries.push(key);
+      ySeries.push(map[key]);
+    });
+
     const reStyle = {
       width: '100%',
       height: '300px'
@@ -30,7 +41,7 @@ export default class Bar extends React.Component {
       xAxis: [
         {
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: xSeries,
           axisTick: {
             alignWithLabel: true
           }
@@ -46,7 +57,7 @@ export default class Bar extends React.Component {
           name: 'Direct access',
           type: 'bar',
           barWidth: '60%',
-          data: [10, 52, 200, 334, 390, 330, 220]
+          data: ySeries
         }
       ]
     };

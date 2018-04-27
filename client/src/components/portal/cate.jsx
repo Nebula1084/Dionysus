@@ -4,6 +4,17 @@ import ReactEcharts from 'echarts-for-react';
 export default class Category extends React.Component {
 
   render() {
+    let map = this.props.data
+    if (map == undefined) {
+      map = {}
+    }
+    let xSeries = []
+    let ySeries = []
+    Object.keys(map).forEach(function (key) {
+      ySeries.push(key);
+      xSeries.push(map[key]);
+    });
+
     const reStyle = {
       width: '100%',
       height: '300px'
@@ -32,13 +43,13 @@ export default class Category extends React.Component {
       },
       yAxis: {
         type: 'category',
-        data: ['Resturants', 'Shopping', 'Beauty & Spas', 'Home Services', 'Nightlife', 'Health & Medical', 'Fashion', 'Automotive', 'Active Life']
+        data: ySeries
       },
       series: [
         {
           name: 'Percentage',
           type: 'bar',
-          data: [19000, 13200, 11000, 7000, 6200, 5000, 3200, 2900, 1700]
+          data: xSeries
         }
       ]
     };

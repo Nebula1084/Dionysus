@@ -22,20 +22,27 @@ const stops = {
 export default class Portal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      method: 'state',
-      category: 'all'
-    };
   }
 
   updateMethod = (value) => {
-    this.setState({ ...this.state, method: value });
+    this.props.dispatch({ type: 'portal/updateMethod', payload: value });
   }
 
   updateCategory = (value) => {
-    this.props.dispatch({ type: 'portal/getStars', payload: value });
-    this.props.dispatch({ type: 'portal/getNumbers', payload: value });
-    this.props.dispatch({ type: 'portal/getBusiness', payload: value });
+    this.props.dispatch({ type: 'portal/updateCategory', payload: value });
+
+    this.props.dispatch({ type: 'portal/getStars' });
+    this.props.dispatch({ type: 'portal/getNumbers' });
+    this.props.dispatch({ type: 'portal/getBusiness' });
+    this.props.dispatch({ type: 'portal/getAttributes' });
+    this.props.dispatch({ type: 'portal/getHours' });
+  }
+
+  updateState = (target) => {
+    this.props.dispatch({ type: 'portal/updateState', payload: target });
+    this.props.dispatch({ type: 'portal/getAttributes' });
+    this.props.dispatch({ type: 'portal/getHours' });
+    this.props.dispatch({ type: 'portal/getNumbersCategory' });
   }
 
   render() {
@@ -52,13 +59,13 @@ export default class Portal extends React.Component {
             <div className={styles['showcase-toolbar']}>
               <Form layout="inline">
                 <Form.Item>
-                  <Select defaultValue={this.state.method} className={styles['tool-button']} onChange={this.updateMethod}>
+                  <Select defaultValue={this.props.portal.method} className={styles['tool-button']} onChange={this.updateMethod}>
                     <Select.Option value='state'>State</Select.Option>
                     <Select.Option value='business'>Business</Select.Option>
                   </Select>
                 </Form.Item>
                 <Form.Item>
-                  <Select defaultValue={this.state.category} className={styles['tool-button']} onChange={this.updateCategory} >
+                  <Select defaultValue={this.props.portal.category} className={styles['tool-button']} onChange={this.updateCategory} >
                     <Select.Option value='all'>All</Select.Option>
                     <Select.Option value='Nightlife'>Nightlife</Select.Option>
                     <Select.Option value='Fashion'>Fashion</Select.Option>
@@ -75,13 +82,20 @@ export default class Portal extends React.Component {
               </Form>
             </div>
             <div className={styles['showcase-container']}>
-              <Map stateData={stateData} method={this.state.method} businessData={this.props.portal.business} portal={this.props.portal} stops={stops} />
+              <Map
+                stateData={stateData}
+                businessData={this.props.portal.business}
+                method={this.props.portal.method}
+                portal={this.props.portal}
+                stops={stops}
+                updateState={this.updateState}
+              />
             </div>
           </Col>
           <Col span={6}>
-            <Pie />
-            <Bar />
-            <Cate />
+            <Pie data={this.props.portal.attributes} />
+            <Bar data={this.props.portal.hours} />
+            <Cate data={this.props.portal.numbersCategory} />
           </Col>
         </Row>
       </div>

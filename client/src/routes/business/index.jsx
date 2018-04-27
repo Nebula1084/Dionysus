@@ -5,7 +5,7 @@ import Portal from '../../components/portal'
 
 const stops = [1, 10, 20, 50, 100, 180, 256];
 
-class Map extends React.Component {
+class Business extends React.Component {
 
   constructor(props) {
     super(props);
@@ -14,9 +14,12 @@ class Map extends React.Component {
   }
 
   componentDidMount() {
-    this.dispatch({ type: 'portal/getStars', payload: 'all' });
-    this.dispatch({ type: 'portal/getNumbers', payload: 'all' });
-    this.dispatch({ type: 'portal/getBusiness', payload: 'all' });
+    this.dispatch({ type: 'portal/getStars' });
+    this.dispatch({ type: 'portal/getNumbers' });
+    this.dispatch({ type: 'portal/getBusiness' });
+    this.dispatch({ type: 'portal/getAttributes' });
+    this.dispatch({ type: 'portal/getHours' });
+    this.dispatch({ type: 'portal/getNumbersCategory' });
   }
 
   which(value) {
@@ -58,4 +61,4 @@ class Map extends React.Component {
   }
 }
 
-export default connect(({ portal }) => ({ portal }))(Map);
+export default connect(({ portal }) => ({ portal }))(Business);

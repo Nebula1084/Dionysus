@@ -4,6 +4,14 @@ import ReactEcharts from 'echarts-for-react';
 export default class Pie extends React.Component {
 
   render() {
+    let map = this.props.data
+    if (map == undefined) {
+      map = {}
+    }
+    let series = []
+    Object.keys(map).forEach(function (key) {
+      series.push({ value: map[key], name: key });
+    });
     const reStyle = {
       width: '100%',
       height: '300px'
@@ -30,15 +38,7 @@ export default class Pie extends React.Component {
           radius: '65%',
           center: ['50%', '50%'],
           selectedMode: 'single',
-          data: [
-            { value: 535, name: 'Restaurant Delivery' },
-            { value: 834, name: 'Business Accept Credit Card' },
-            { value: 935, name: 'Open 24 Hours' },
-            { value: 770, name: 'Alcohol' },
-            { value: 473, name: 'Smoking' },
-            { value: 225, name: 'WiFi' },
-            { value: 655, name: 'Outdoor Seating' },
-          ],
+          data: series,
           itemStyle: {
             emphasis: {
               shadowBlur: 10,
