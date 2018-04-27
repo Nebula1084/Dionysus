@@ -133,7 +133,16 @@ export default class Map extends Component {
       extruded: true,
       opacity: 1,
       fp64: true,
-      getColorValue: points => 1.5,
+      getColorValue: points => {
+        let stars = 0;
+        for (let point of points) {
+          stars += point.stars
+        }
+        if (points.length === 0)
+          return 0
+        else
+          return stars / points.length;
+      },
       elevationDomain: [0, 50],
       // getElevationValue: this.getElevationValue,
       elevationUpperPercentile: 100,
