@@ -85,7 +85,7 @@ export default {
     updateMethod(state, { payload: method }) {
       return { ...state, method: method }
     },
-    updateCategory(state, { payloau: category }) {
+    updateCategory(state, { payload: category }) {
       return { ...state, category: category }
     },
     updateState(state, { payload: target }) {
