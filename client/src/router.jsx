@@ -7,22 +7,29 @@ import Dynamic from 'dva/dynamic';
 import App from './routes/app'
 
 function RouterConfig({ history, app }) {
-  const Introduction = Dynamic({
+  const review = Dynamic({
     app,
-    component: () => import('./routes/introduction')
+    models: () => [
+      import('./models/review')
+    ],
+    component: () => import('./routes/review')
   });
-  const Visualization = Dynamic({
+  const business = Dynamic({
     app,
-    component: () => import('./routes/map')
+    models: () => [
+      import('./models/portal')
+    ],
+    component: () => import('./routes/business')
   });
+
 
   return (
     <Router history={history}>
       <App>
         <Switch>
-          <Route exact path="/" render={() => (<Redirect to="/introduction" />)} />
-          <Route exact path="/introduction" component={Introduction} />
-          <Route exact path="/map" component={Visualization} />
+          <Route exact path="/" render={() => (<Redirect to="/business" />)} />
+          <Route exact path="/business" component={business} />
+          <Route exact path="/review" component={review} />
         </Switch>
       </App>
     </Router>

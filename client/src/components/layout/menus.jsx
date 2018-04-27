@@ -25,18 +25,17 @@ class Menus extends React.Component {
 
     return (
       <Menu mode={sidebarFold ? 'vertical' : 'inline'} theme='light' onClick={onMenuClick} selectedKeys={Array.of(menukey)}>
+        <Menu.Item key='Business'>
+          <Link to='/business'>
+            <Icon type='bars' /> Business
+          </Link>
+        </Menu.Item>
+
         <Menu.Item key='Introduction'>
-          <Link to='/introduction'>
-            <Icon type='bars' /> Introduction
+          <Link to='/review'>
+            <Icon type='bars' /> Review
           </Link>
         </Menu.Item>
-
-        <Menu.Item key='Map'>
-          <Link to='/map'>
-            <Icon type='bars' /> Map
-          </Link>
-        </Menu.Item>
-
       </Menu>
     )
   }

@@ -1,134 +1,117 @@
-import qs from 'qs';
-import _ from 'lodash';
-import Axios from 'axios';
-import {
-  notification
-} from 'antd';
+import fetch from 'dva/fetch'
+import querystring from 'querystring'
 
-const reqConfig = {
-  withCredentials: true
-};
+const formatJson = (k, v) => {
+  if (v === undefined) {
+    return ''
+  }
+  return v
+}
 
-const Request = Axios.create(reqConfig);
+function check401(response) {
+  if (response.status === 401) {
+    const key = 'Unauthorized'
+    return Promise.reject({ key })
+  }
+  return response
+}
 
-function fetch(method, url, data, inConfig = false) {
-  let cancel = () => {};
-  const cancelToken = new Axios.CancelToken((c) => {
-    cancel = c;
-  });
+function checkStatus(response) {
+  if (response.status >= 200 && response.status < 300) {
+    return response
+  }
 
-  const promise = (inConfig
-    ? Request[method](url, {
-      params: data,
-      cancelToken
+  const error = new Error(response.statusText)
+  error.response = response
+  throw error
+}
+
+function jsonParse(res) {
+  if (res.status !== 200) {
+    return Promise.reject(res)
+  }
+  return res.json().then((result) => {
+    if (result) {
+      if (result.isError) {
+        console.log('result.isError')
+        return Promise.reject(new Error(result.message))
+      } else {
+        return result
+      }
+    }
+    return null
+  })
+}
+
+/**
+ * Requests a URL, returning a promise.
+ *
+ * @param  {string} url
+ * @param  {object} [options]
+ * @return {object}
+ */
+function request(url, options) {
+  const opts = { ...options }
+  // opts.credentials = 'include'
+  opts.headers = {
+    ...opts.headers,
+    'Content-Type': 'application/json;charset=utf-8',
+  }
+
+  return fetch(url, opts)
+    .then(checkStatus)
+    .then(check401)
+    .then(jsonParse)
+    .catch((err) => {
+      throw new Error(`${err.message}`, err.message || 'error')
     })
-    : Request[method](url, data, {
-      cancelToken
-    })
-  );
-
-  return {
-    promise,
-    cancel
-  };
 }
 
-function get(url, data) {
-  return fetch('get', url, data, true);
+/**
+ * post。
+ * @param url
+ * @param data
+ * @param options
+ */
+function post(url, data = {}, options) {
+  return request(url, { ...options, method: 'POST', body: JSON.stringify(data, formatJson) })
 }
 
-function post(url, data) {
-  return fetch('post', url, data, false);
+/**
+ * delete
+ * @param url
+ * @param options
+ */
+function del(url, options) {
+  return request(url, { ...options, method: 'DELETE' })
 }
 
-function put(url, data) {
-  return fetch('put', url, data, false);
+/**
+ * put
+ * @param url
+ * @param data
+ * @param options
+ */
+function put(url, data = {}, options) {
+  return request(url, { ...options, method: 'PUT', body: JSON.stringify(data, formatJson) })
+}
+/**
+ * patch
+ * @param url
+ * @param data
+ * @param options
+ */
+function patch(url, data = {}, options) {
+  return request(url, { ...options, method: 'PATCH', body: JSON.stringify(data, formatJson) })
 }
 
-function patch(url, data) {
-  return fetch('patch', url, data, false);
+/**
+ * get
+ * @param url
+ * @param options
+ */
+function get(url, data, options) {
+  return request(`${url}${data ? '?' + querystring.stringify(data) : ''}`, { ...options, method: 'GET' })
 }
 
-function del(url, data) {
-  return fetch('delete', url, data, true);
-}
-
-function throwReqError(resp) {
-  const error = new Error(resp.statusText);
-  error.resp = resp;
-  return Promise.reject(error);
-}
-
-function checkStatus(resp) {
-  if ((resp.status >= 200) && (resp.status < 300)) {
-    return resp;
-  }
-
-  notification.error({
-    message: `请求错误 ${resp.status}: ${resp.url}`,
-    description: resp.statusText
-  });
-
-  return throwReqError(resp);
-}
-
-function throwSrvError(data) {
-  const error = new Error(data.msg);
-  error.srv = data;
-  return Promise.reject(error);
-}
-
-function checkCode(data) {
-  if (data && (data.code !== 0)) {
-    return throwSrvError(data);
-  }
-
-  return data;
-}
-
-function handleReqError(err) {
-  if (Axios.isCancel(err)) {
-    console.warn('Request canceled', err.message);
-  }
-
-  throw err;
-}
-
-function handleRequest(req) {
-  return {
-    ...req,
-    promise: req.promise
-      .then(checkStatus)
-      .then(resp => resp.data)
-      .then(checkCode)
-      .catch(handleReqError)
-  };
-}
-
-export function getJson(url, data) {
-  const _data = data ? _.cloneDeep(data) : {};
-  _data._t_ = _.now();
-  return handleRequest(get(url, _data));
-}
-
-export function postJson(url, data) {
-  return handleRequest(post(url, data));
-}
-
-export function postForm(url, data) {
-  return handleRequest(post(url, qs.stringify(data)));
-}
-
-export function putJson(url, data) {
-  return handleRequest(put(url, data));
-}
-
-export function patchJson(url, data) {
-  return handleRequest(patch(url, data));
-}
-
-export function deleteJson(url, data) {
-  const _data = data ? _.cloneDeep(data) : {};
-  _data._t_ = _.now();
-  return handleRequest(del(url, _data));
-}
+export { post, del, put, patch, get }
