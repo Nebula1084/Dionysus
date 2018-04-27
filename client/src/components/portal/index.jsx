@@ -66,6 +66,17 @@ export default class Portal extends React.Component {
     )
   }
 
+  hexToolTip = (object) => {
+    let number = object.elevationValue;
+    let star = object.colorValue;
+    return (
+      <div>
+        Business number:{number} <br />
+        Average star:{star.toFixed(3)}
+      </div>
+    )
+  }
+
   render() {
     this.props.portal.numbers;
     this.props.portal.stars;
@@ -112,6 +123,7 @@ export default class Portal extends React.Component {
                 portal={this.props.portal}
                 stops={stops}
                 elevationScale={5}
+                hexToolTip={this.hexToolTip}
                 geoToolTip={this.geoToolTip}
                 updateState={this.updateState}
               />

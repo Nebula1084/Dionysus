@@ -133,19 +133,27 @@ export default class Map extends Component {
       extruded: true,
       opacity: 1,
       fp64: true,
-      getColorValue: points => 5,
+      getColorValue: points => 1.5,
       elevationDomain: [0, 50],
       // getElevationValue: this.getElevationValue,
       elevationUpperPercentile: 100,
       elevationLowerPercentile: 0,
+      onHover: this._onHover,
+      pickable: true,
       radius: 1000
     })
   }
 
   _renderTooltip() {
     const { x, y, hoveredObject } = this.state;
+    let renderMethod;
+    if (this.props.method == 'state') {
+      renderMethod = this.props.geoToolTip;
+    } else {
+      renderMethod = this.props.hexToolTip;
+    }
 
-    if (!hoveredObject || !this.props.geoToolTip) {
+    if (!hoveredObject || !renderMethod) {
       return null;
     }
     return (
@@ -153,7 +161,7 @@ export default class Map extends Component {
         style={{
           left: x, top: y + 30
         }}>
-        {this.props.geoToolTip(hoveredObject)}
+        {renderMethod(hoveredObject)}
       </div>
     );
   }
