@@ -1,8 +1,10 @@
 package hku.cs.vis.dionysus.business;
 
 import hku.cs.vis.dionysus.attribute.BusinessAttribute;
+import hku.cs.vis.dionysus.checkin.CheckIn;
 import hku.cs.vis.dionysus.checkin.CheckInTable;
 import hku.cs.vis.dionysus.hours.Hours;
+import hku.cs.vis.dionysus.hours.TimeTable;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,16 +63,28 @@ public class BusinessTree {
     }
 
     public Map<String, Integer> getHours(String state, String category) {
-        return root.getHours(state, category);
+        return toOrder(root.getHours(state, category), TimeTable.WEEKS);
     }
 
 
     public Map<String, Integer> getCheckIn(String state, String category) {
-        return root.getCheckIn(state, category);
+        return toOrder(root.getCheckIn(state, category), CheckIn.WEEKS);
     }
 
     public Map<String, Integer> getAttributes(String state, String category) {
         return maxN(root.getAttributes(state, category), 6);
+    }
+
+
+    private static Map<String, Integer> toOrder(Map<String, Integer> map, String[] order) {
+        Map<String, Integer> orderedMap = new LinkedHashMap<>();
+        for (String i : order) {
+            Integer n = map.get(i);
+            if (n != null) {
+                orderedMap.put(i, n);
+            }
+        }
+        return orderedMap;
     }
 
 
