@@ -47,7 +47,7 @@ export default class Category extends React.Component {
       },
       series: [
         {
-          name: 'Percentage',
+          name: 'Count',
           type: 'bar',
           data: xSeries
         }
