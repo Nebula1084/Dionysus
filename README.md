@@ -2,12 +2,12 @@
 The build of the project is quite tricky. The original intention
 is to build the client into a static bundle and compile it
 into the static file directory of server jar package. But the 
-client project couldn't be bundled since the Deck GL dependency.
+client project couldn't be bundled because of the Deck GL dependency.
 You can try to configure the project to make the artifact built and
-modify the build.gradle under server project. Let the server copy 
+modify the `build.gradle` under `server` directory. Let the server copy 
 the artifact into the jar package.
 
-Now, we just compile the server. First you need to down and copy following files into the directory `server/src/main/resources/`.
+Now, we just compile the `server`. First you need to download and copy following files into the directory `server/src/main/resources/`.
 You can find the data from this link [yelp-dataset](https://www.kaggle.com/yelp-dataset/yelp-dataset/data).
 ~~~
 yelp_business_attributes.csv
